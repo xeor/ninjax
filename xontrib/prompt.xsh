@@ -120,6 +120,10 @@ def _tmux():
     except subprocess.CalledProcessError:
         return ''
 
+    if attached == 1 and os.environ.get('TMUX'):
+        # There are 1 session, but it's the one we are in... Don't bother showing it..
+        return ''
+
     return _prompt_part('RED' if attached >= 2 else 'YELLOW', attached, name='tmux')
 $PROMPT_FIELDS['tmux'] = _tmux
 
