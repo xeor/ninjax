@@ -40,11 +40,11 @@ $PROMPT_FIELDS['at'] = _http_proxy
 
 def _hostname():
     hostname = platform.node().split('.')[0]
-    termproc, termspawner = helpers.login_process()
-    if termspawner in ['sshd']:
-        color = 'CYAN'
-    elif termspawner in ['Terminal']:
+    loginproc_info = helpers.login_process()
+    if loginproc_info.get('local'):
         color = 'GREEN'
+    elif loginproc_info.get('termspawner') in ['sshd']:
+        color = 'CYAN'
     else:
         color = 'YELLOW'
 

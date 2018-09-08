@@ -11,6 +11,8 @@ def login_process():
     """
 
     current_proc = psutil.Process(os.getpid())
+    if current_proc.terminal().startswith('/dev/tty'):
+        return {'local': True}
 
     for _ in range(15):  # Don't bother looking further...
         parent = current_proc.parent()
@@ -18,9 +20,9 @@ def login_process():
             current_proc = parent
             continue
 
-        return current_proc.name(), parent.name()
+        return {'termproc': current_proc.name(), 'termspawner': parent.name()}
 
-    return 'unknown'
+    return {}
 
 
 def human_readable_time(seconds):
@@ -39,6 +41,3 @@ def human_readable_time(seconds):
     result += f'{s}s'
 
     return result
-
-
-print(login_process())
