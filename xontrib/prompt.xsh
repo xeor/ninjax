@@ -96,6 +96,11 @@ def _timeinfo():
         return _prompt_part('YELLOW', helpers.human_readable_time(timetaken), name='cmdtime')
 $PROMPT_FIELDS['timed'] = _timeinfo
 
+###
+## bg, stp and tmux all spawns commands.. Which will add a tiny bit delay to the prompt.
+## Try to find a better way to detect if we need to do that..
+###
+
 def _bg():
     bgjobs = $(jobs -r | wc -l | sed -e 's/[^0-9]//g')
     if bgjobs:
